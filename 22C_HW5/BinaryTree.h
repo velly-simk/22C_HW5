@@ -16,17 +16,15 @@ class BinaryTree
 protected:
 	BinaryNode<ItemType>* rootPtr;		// ptr to root node
 	int count;	// number of nodes in tree
-	int maxDepth;
 
 public:
 	// "admin" functions
-	BinaryTree() { rootPtr = 0; count = 0; maxDepth = 0; }
+	BinaryTree() { rootPtr = 0; count = 0;}
 	BinaryTree(const BinaryTree<ItemType> & tree) { rootPtr = copyTree(tree.rootPtr); }
 	virtual ~BinaryTree() { clear(); }
 	BinaryTree & operator = (const BinaryTree & sourceTree);
    
 	// common functions for all binary trees
-	int Depth() { return maxDepth; }
  	bool isEmpty() const	{return count == 0;}
 	int size() const	    {return count;}
 	void clear()			{destroyTree(rootPtr); rootPtr = 0;}
@@ -38,7 +36,6 @@ public:
 	void getRightMost(ItemType &node) const { _getrightmost(node, rootPtr); }
 	void postOrder(void visit(ItemType &)) const{_postorder(visit, rootPtr);}
 	void breadthOrder(Queue<ItemType> &itemQueue);
-	void toArray(ItemType * &output);
 
 	// abstract functions to be implemented by derived class
 	virtual bool insert(const ItemType & newData) = 0; 
@@ -48,8 +45,6 @@ public:
 private:   
 	// deletes sub tree with provided root node, does nothing if node is not in tree
 	void destroyTree(BinaryNode<ItemType>* nodePtr);
-
-	void _toArray(ItemType* &output, BinaryNode<ItemType> * nodePtr, int Diff, int prevIndex, int dir);
 
 	// copy from the tree rooted at nodePtr and returns a pointer to the copy
 	BinaryNode<ItemType>* copyTree(const BinaryNode<ItemType>* nodePtr);
@@ -80,53 +75,13 @@ void BinaryTree<ItemType>::breadthOrder(Queue<ItemType> &itemQueue) {
 			nodeQueue.enqueue(mov->getRightPtr());
 			itemQueue.enqueue(mov->getItem());
 		}
-		/*
-		else {
-			itemQueue.enqueue(Employee(0, ""));
-		}
-		*/
+
 	}
 }
 
-template<class ItemType>
-void BinaryTree<ItemType>::toArray(ItemType * &output) {
-	if (output) delete[] output;
-	int arrSize = pow(2, maxDepth + 1) - 1;
-
-	output = new ItemType[arrSize];
-
-	memset(output, 0, (arrSize*sizeof(ItemType)));
-
-	_toArray(output, rootPtr, 0, 0, 0);
-
-}
 
 //////////////////////////////////////////////////////////////////////////
 
-template<class ItemType>
-void BinaryTree<ItemType>::_toArray(ItemType* &output, BinaryNode<ItemType> * nodePtr, int diff, int prevIndex, int dir) {
-	if (nodePtr) {
-		int newIndex = prevIndex + diff;
-		output[newIndex] = nodePtr->getItem();
-
-		if (diff < 1) {
-			diff = 1;
-			_toArray(output, nodePtr->getLeftPtr(), diff, newIndex, 0); // to left
-			_toArray(output, nodePtr->getRightPtr(), diff + 1, newIndex, 1); // to right
-		}
-		else diff *= 2; // next depth difference
-		
-		if (dir == 0) { // from left
-			_toArray(output, nodePtr->getLeftPtr(), diff, newIndex, 0); // to left
-			_toArray(output, nodePtr->getRightPtr(), diff + 1, newIndex, 1); // to right
-		}
-		else if (dir == 1) { // from right
-			_toArray(output, nodePtr->getLeftPtr(), diff - 1, newIndex, 0); // to left
-			_toArray(output, nodePtr->getRightPtr(), diff, newIndex, 1); // to right
-		}
-
-	}
-}
 
 /* Private Functions */
 template<class ItemType>
@@ -163,28 +118,6 @@ void BinaryTree<ItemType>::destroyTree(BinaryNode<ItemType>* nodePtr)
 
 	if (node == NULL) return;
 	// end locate
-	
-
-	// Depth resolution
-	if (prev != NULL) {
-		if (node == prev->getLeftPtr()) {
-			if (prev->depth() == (node->depth() + 1)) {
-				prev->depth((prev->getRightPtr()->depth() + 1));
-				prev->depthFactor(0 - prev->getRightPtr()->depth());
-
-			}
-		}
-		else {
-			if (prev->depth() == (node->depth() + 1)) {
-				prev->depth((prev->getLeftPtr()->depth() + 1));
-				prev->depthFactor(prev->getLeftPtr()->depth() - 0));
-			}
-		}
-	}
-
-	// MAX DEPTH IS NOT RESOLVED, need recursive solution to cascade depth up
-
-
 
 	// start deleting
 	Queue<BinaryNode<ItemType>*> nodeQ;
@@ -292,7 +225,6 @@ BinaryTree<ItemType> & BinaryTree<ItemType>::operator=(const BinaryTree<ItemType
 		Queue<BinaryNode<ItemType>*> nodes;
 		nodes.enqueue(sourceTree.rootPtr);
 
-		maxDepth = sourceTree.maxDepth;
 		count = sourceTree.count;
 		
 		while (!nodes.isEmpty()) {

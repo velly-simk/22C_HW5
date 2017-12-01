@@ -1,31 +1,34 @@
 #include <iostream>
 
-//#include "BinarySearchTree.h"
-#include "BinarySearchTree2.h"
-
+#include "MaxHeap.h"
 
 void toConsole(int*& input);
+int intPtrCompare(const int * & lhs, const int * &rhs);
 
 using namespace std;
 int main(int, char[]) {
-	BinarySearchTree<int> bst;
-	/*
-	BinarySearchTree<int*> bst;
-	int a = 1, b = 2, c = 3;
-	bst.insert(&b);
-	bst.insert(&a);
-	bst.insert(&c);
-	cout << bst.Depth() << endl;
 
-	a = 3;
-	b = 2;
-	c = 1;
+	MaxHeap<int*> heap;
 
-	bst.inOrder(toConsole);
-	*/
+	int a = 1,
+		b = 2,
+		c = 3;
+
+	heap.insert(&a);
+	heap.insert(&b);
+	heap.insert(&c);
+
+	heap.printHeap(toConsole);
+
 	getchar();
 }
 
 void toConsole(int*& input) {
-	cout << *input << endl;
+	cout << *input << " ";
+}
+
+int intPtrCompare(const int * & lhs, const int * & rhs) {
+	if (*lhs > *rhs) return 1;
+	else if (*rhs > *lhs) return -1;
+	else return 0;
 }

@@ -47,9 +47,6 @@ bool BinarySearchTree<ItemType>::insert(const ItemType & newEntry)
 
 	_insert(this->rootPtr, newNodePtr);
 
-	// depth resolution
-	this->maxDepth = this->rootPtr->depth();
-
 	return this->count != tmp ;
 }  
 
@@ -95,9 +92,6 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_insert(BinaryNode<ItemType>* 
 			nodePtr->setLeftPtr(newNodePtr);
 			++this->count;
 		}
-		// depth resolution
-		if (nodePtr->depth() == nodePtr->getLeftPtr()->depth())
-			nodePtr->depth(nodePtr->depth()+ 1);
 	}
 	if (newNodePtr->getItem() > nodePtr->getItem()) {
 		ptr = nodePtr->getRightPtr();
@@ -105,9 +99,6 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_insert(BinaryNode<ItemType>* 
 			nodePtr->setRightPtr(newNodePtr);
 			++this->count;
 		}
-		// depth resolution
-		if (nodePtr->depth() == nodePtr->getRightPtr()->depth())
-			nodePtr->depth(nodePtr->depth() + 1);
 	}
 
 	return nodePtr;

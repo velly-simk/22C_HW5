@@ -12,20 +12,15 @@ private:
 	ItemType              item;         // Data portion
 	BinaryNode<ItemType>* leftPtr;		// Pointer to left child
 	BinaryNode<ItemType>* rightPtr;		// Pointer to right child
-	int _depthFactor, _depth;
 
 public:
-	int depth() { return _depth; };
-	void depth(int newDepth) {_depth = newDepth; }
-	int depthFactor() { return _depthFactor; }
-	void depthFactor(int newFactor) { _depthFactor = newFactor };
 
 	// constructors
-	BinaryNode(const ItemType & anItem) { item = anItem; leftPtr = 0; rightPtr = 0; _depth = 0; _depthFactor = 0; }
+	BinaryNode(const ItemType & anItem) { item = anItem; leftPtr = 0; rightPtr = 0;}
 	BinaryNode(const ItemType & anItem, BinaryNode<ItemType>* left, BinaryNode<ItemType>* right) {
-		item = anItem; leftPtr = left; rightPtr = right;
-		_depth = (left._depth > right._depth ? left._depth : right._depth) + 1;
-		_depthFactor = left._depth - right._depth;
+		item = anItem;
+		leftPtr = left;
+		rightPtr = right;
 	}
 	// accessors
 	void setItem(const ItemType & anItem) {item = anItem;}
