@@ -3,16 +3,16 @@
 #include "MaxHeap.h"
 
 void toConsole(int*& input);
-int intPtrCompare(const int * & lhs, const int * &rhs);
+
+int intPtrCompare(int* & lhs, int* & rhs);
 
 using namespace std;
 int main(int, char[]) {
-
-	MaxHeap<int*> heap;
-
 	int a = 1,
 		b = 2,
 		c = 3;
+
+	MaxHeap<int*> heap = MaxHeap<int*>(intPtrCompare);
 
 	heap.insert(&a);
 	heap.insert(&b);
@@ -27,7 +27,7 @@ void toConsole(int*& input) {
 	cout << *input << " ";
 }
 
-int intPtrCompare(const int * & lhs, const int * & rhs) {
+int intPtrCompare(int* & lhs, int* & rhs) {
 	if (*lhs > *rhs) return 1;
 	else if (*rhs > *lhs) return -1;
 	else return 0;

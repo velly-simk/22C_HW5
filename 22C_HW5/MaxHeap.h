@@ -8,12 +8,12 @@
 #include <iostream>
 
 _template
-class MaxHeap : public HeapInterface<T> {
+class MaxHeap {
 private:
 	int _count, _height, _maxItems;
 	bool _resolved;
 	T* items;
-	int (*_compare)(const T & lhs, const T & rhs);
+	int (*compare)(T & lhs, T & rhs);
 
 	int getLeftChildIndex(const int & nodeIndex) const;
 	int getRightChildIndex(const int & nodeIndex) const;
@@ -25,7 +25,7 @@ private:
 	void swap(const int & index1, const int & index2);
 
 public:
-	MaxHeap(int compare(const T & lhs, const T & rhs)) { items = new T[8]; _maxItems = 8; _resolved = false; _count = 0; _compare = compare } // minimum size 8
+	MaxHeap(int compareFunction(T& lhs, T& rhs)) { items = new T[8]; _maxItems = 8; _resolved = false; _count = 0; compare = compareFunction; } // minimum size 8
 	virtual ~MaxHeap() { delete[] items; }
 
 	bool isEmpty() const { return !_count; }
@@ -75,7 +75,7 @@ bool MaxHeap<T>::isLeaf(const int & nodeIndex) const {
 _template
 void MaxHeap<T>::reheapUp(const int & nodeIndex) { // improve with comparison function pointer
 	int parentIndex = getParentIndex(nodeIndex);
-	if ((parentIndex != 0) && (compare(items[nodeIndex], items[parentIndex]) > 0)) {
+	if ((parentIndex >= 0) && (compare(items[nodeIndex], items[parentIndex]) > 0)) {
 		swap(nodeIndex, parentIndex);
 		reheapUp(parentIndex);
 	}
@@ -112,7 +112,7 @@ _template
 void MaxHeap<T>::swap(const int & index1, const int & index2) {
 	T tmp = items[index1];
 	items[index1] = items[index2];
-	items[index2] = items[index1];
+	items[index2] = tmp;
 }
 
 /* Public Functions */
