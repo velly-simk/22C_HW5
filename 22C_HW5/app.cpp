@@ -54,22 +54,6 @@ int main(int, char[]) {
 		maxheap.swapArray(new int[0](), 0, 0);
 
 	}
-	/*
-	int *arr = new int[ARR_SIZE](),
-		*arr2 = new int[ARR_SIZE]();
-	IntegerPair heapSortCounts = IntegerPair(),
-		selectionSortCounts = IntegerPair();
-
-	buildArray(arr, ARR_SIZE);
-	memcpy(arr2, arr, ARR_SIZE * sizeof(int));
-
-	GenericHeap<int> maxheap = GenericHeap<int>(intCompare, arr, ARR_SIZE, ARR_SIZE);
-	heapSortCounts += maxheap.rebuildHeap(0);
-	heapSortCounts += maxheap.sortArray();
-	cout << "Swaps: " << heapSortCounts.pair[0] << " | Comparisons: " << heapSortCounts.pair[1] << endl;
-	selectionSortCounts = selectionSort(arr2);
-	cout << "Swaps: " << selectionSortCounts.pair[0] << " | Comparisons: " << selectionSortCounts.pair[1] << endl;
-	*/
 
 	getchar();
 }
