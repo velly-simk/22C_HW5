@@ -69,15 +69,10 @@ IntegerPair selectionSort(int *arr, int arrSize) {
 			if (arr[j] < *x) x = &arr[j];
 			z.pair[1] += 2;
 		}
-		if (!(x - &arr[i])) {
-			++z.pair[1];
-			continue;
-		}
 		tmp = arr[i];
 		arr[i] = *x;
 		arr[x - arr] = tmp;
 		++z.pair[0];
-		++z.pair[1];
 	}
 	return z;
 
