@@ -5,7 +5,7 @@
 #include <stdlib.h> // rand srand
 #include <time.h> // time
 
-#define ARR_SIZE 1000000
+#define MAX_ARR_SIZE 100000
 
 void buildArray(int* arr, int arrSize);
 
@@ -13,10 +13,48 @@ int intCompare(int & lhs, int & rhs);
 
 void printArr(int * arr, int items);
 
-IntegerPair selectionSort(int* arr);
+IntegerPair selectionSort(int* arr, int arrSize);
 
 using namespace std;
 int main(int, char[]) {
+	int arrSize = 1;
+	int * arr = new int[0](),
+		* arr2 = new int[0]();
+	IntegerPair heapSortCounts = IntegerPair(),
+		selectionSortCounts = IntegerPair();
+
+	while (arrSize < MAX_ARR_SIZE) {
+		arrSize *= 10;
+		cout << "Array Size : " << arrSize << endl;
+		delete[] arr;
+		delete[] arr2;
+
+		heapSortCounts = IntegerPair();
+		selectionSortCounts = IntegerPair();
+
+		arr = new int[arrSize]();
+		arr2 = new int[arrSize]();
+
+		buildArray(arr, arrSize);
+		memcpy(arr2, arr, arrSize * sizeof(int));
+
+		if (arrSize < 1000) printArr(arr, arrSize);
+
+		cout << "Heap Sort Array : " << endl;
+		GenericHeap<int> maxheap = GenericHeap<int>(intCompare, arr, arrSize, arrSize);
+		heapSortCounts += maxheap.rebuildHeap(0);
+		heapSortCounts += maxheap.sortArray();
+		if (arrSize < 1000) printArr(arr, arrSize);
+		cout << "\tSwaps: " << heapSortCounts.pair[0] << " | Comparisons: " << heapSortCounts.pair[1] << endl;
+		cout << "Selection Sort Array : " << endl;
+		selectionSortCounts = selectionSort(arr2, arrSize);
+		if (arrSize < 1000) printArr(arr2, arrSize);
+		cout << "\tSwaps: " << selectionSortCounts.pair[0] << " | Comparisons: " << selectionSortCounts.pair[1] << endl << endl;
+		
+		maxheap.swapArray(new int[0](), 0, 0);
+
+	}
+	/*
 	int *arr = new int[ARR_SIZE](),
 		*arr2 = new int[ARR_SIZE]();
 	IntegerPair heapSortCounts = IntegerPair(),
@@ -31,18 +69,19 @@ int main(int, char[]) {
 	cout << "Swaps: " << heapSortCounts.pair[0] << " | Comparisons: " << heapSortCounts.pair[1] << endl;
 	selectionSortCounts = selectionSort(arr2);
 	cout << "Swaps: " << selectionSortCounts.pair[0] << " | Comparisons: " << selectionSortCounts.pair[1] << endl;
+	*/
 
 	getchar();
 }
 
-IntegerPair selectionSort(int *arr) {
+IntegerPair selectionSort(int *arr, int arrSize) {
 	int *x;
 	int tmp;
 	IntegerPair z = IntegerPair();
-	for (int i = 0; i < ARR_SIZE; ++i) {
+	for (int i = 0; i < arrSize; ++i) {
 		++z.pair[1];
 		x = &arr[i];
-		for (int j = x - arr; j < ARR_SIZE; ++j) {
+		for (int j = x - arr; j < arrSize; ++j) {
 			if (arr[j] < *x) x = &arr[j];
 			z.pair[1] += 2;
 		}

@@ -6,6 +6,10 @@
 		int function(item1, item2) {if (item1 > item2) return 1; else 0;}
 
 	Heap can start with an exisiting array, but needs a rebuildHeap() call to treat array as a heap.
+
+	22C Fall 2017
+
+	Velly Simeonov
 	
 	*/
 
